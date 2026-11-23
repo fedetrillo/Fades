@@ -1,0 +1,28 @@
+{
+    "package_name": "Fades",
+    "id": "com.fedetrillo.fades",
+    "title": "Fades",
+    "name": "Fades",
+    "version": "1.0.0",
+    "manufacturer": "Fede Trillo",
+    "contact": "fedetrillo@gmail.com",
+    "description": [
+        "Batch fades for LUNA: fade-ins, fade-outs and crossfades on every clip in the selection at once, with lengths you can drag, three shapes, crossfade placement, create-or-adjust options and presets of your own."
+    ],
+    "categories": [
+        "Workflow",
+        "Mixing & Mastering"
+    ],
+    "icon": "icon.png",
+    "sdk_version": "3.1.2",
+    "min_luna_version": "3.1.2",
+    "engines": [
+        "luna"
+    ],
+    "html": "index.html",
+    "target": "window",
+    "floating": true,
+    "show_with_session": true,
+    "width": 940,
+    "height": 560
+}
