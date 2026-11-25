@@ -6,7 +6,7 @@
 
 (() => {
   const $ = (id) => document.getElementById(id);
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.0';
   const KEY = 'com.fedetrillo.fades.';
   const store = {
     get: (k) => { try { return JSON.parse(localStorage.getItem(KEY + k)); } catch { return null; } },
@@ -39,7 +39,20 @@
   };
   let lang = store.get('lang') ?? (() => { for (const l of navigator.languages ?? [navigator.language]) { const c = String(l || '').slice(0, 2).toLowerCase(); if (I18N[c]) return c; } return 'en'; })();
   const t = (k, v = {}) => String(I18N[lang][k] ?? I18N.en[k] ?? k).replace(/\{(\w+)\}/g, (m, x) => (x in v ? String(v[x]) : m));
+
+  // Fades 1.1: live summary, one mode for fades already there, colours.
+  for (const [c, v] of Object.entries({"en": {"modeLabel": "Fades already there:", "mNew": "Keep them, create new ones only", "mBoth": "Create new ones and adjust them", "mAdjust": "Only adjust them", "perType": "Choose per type…", "trk1": "1 track", "trkN": "{n} tracks", "clp1": "1 clip", "clpN": "{n} clips", "applyN": "Apply {n} fades", "apply1": "Apply 1 fade", "pIn": "fade-ins", "pXf": "crossfades", "pOut": "fade-outs", "rule": "No fade ever takes more than 45 % of its clip.", "noClips": "No audio clips in the selection.", "color": "Colour", "cYellow": "Yellow", "cOrange": "Orange", "cRed": "Red", "cGreen": "Green", "cBlue": "Blue", "cPink": "Pink", "cPurple": "Purple"}, "es": {"modeLabel": "Con los fundidos que ya hay:", "mNew": "Dejarlos y crear solo nuevos", "mBoth": "Crear nuevos y ajustar los que hay", "mAdjust": "Solo ajustar los que hay", "perType": "Elegir por tipo…", "trk1": "1 pista", "trkN": "{n} pistas", "clp1": "1 clip", "clpN": "{n} clips", "applyN": "Aplicar {n} fundidos", "apply1": "Aplicar 1 fundido", "pIn": "de entrada", "pXf": "cruzados", "pOut": "de salida", "rule": "Ningún fundido pasa del 45 % de su clip.", "noClips": "No hay clips de audio en la selección.", "color": "Color", "cYellow": "Amarillo", "cOrange": "Naranja", "cRed": "Rojo", "cGreen": "Verde", "cBlue": "Azul", "cPink": "Rosa", "cPurple": "Morado"}, "ca": {"modeLabel": "Amb els fosos que ja hi ha:", "mNew": "Deixar-los i crear-ne només de nous", "mBoth": "Crear-ne de nous i ajustar els que hi ha", "mAdjust": "Només ajustar els que hi ha", "perType": "Triar per tipus…", "trk1": "1 pista", "trkN": "{n} pistes", "clp1": "1 clip", "clpN": "{n} clips", "applyN": "Aplicar {n} fosos", "apply1": "Aplicar 1 fos", "pIn": "d’entrada", "pXf": "encreuats", "pOut": "de sortida", "rule": "Cap fos passa del 45 % del seu clip.", "noClips": "No hi ha clips d’àudio a la selecció.", "color": "Color", "cYellow": "Groc", "cOrange": "Taronja", "cRed": "Vermell", "cGreen": "Verd", "cBlue": "Blau", "cPink": "Rosa", "cPurple": "Morat"}, "fr": {"modeLabel": "Les fondus déjà présents :", "mNew": "Les garder, créer seulement les nouveaux", "mBoth": "Créer les nouveaux et ajuster les existants", "mAdjust": "Seulement ajuster les existants", "perType": "Choisir par type…", "trk1": "1 piste", "trkN": "{n} pistes", "clp1": "1 clip", "clpN": "{n} clips", "applyN": "Appliquer {n} fondus", "apply1": "Appliquer 1 fondu", "pIn": "d’entrée", "pXf": "enchaînés", "pOut": "de sortie", "rule": "Aucun fondu ne dépasse 45 % de son clip.", "noClips": "Aucun clip audio dans la sélection.", "color": "Couleur", "cYellow": "Jaune", "cOrange": "Orange", "cRed": "Rouge", "cGreen": "Vert", "cBlue": "Bleu", "cPink": "Rose", "cPurple": "Violet"}, "de": {"modeLabel": "Vorhandene Blenden:", "mNew": "Behalten, nur neue anlegen", "mBoth": "Neue anlegen und vorhandene anpassen", "mAdjust": "Nur vorhandene anpassen", "perType": "Pro Art wählen…", "trk1": "1 Spur", "trkN": "{n} Spuren", "clp1": "1 Clip", "clpN": "{n} Clips", "applyN": "{n} Blenden anwenden", "apply1": "1 Blende anwenden", "pIn": "Einblenden", "pXf": "Überblenden", "pOut": "Ausblenden", "rule": "Keine Blende nimmt mehr als 45 % ihres Clips ein.", "noClips": "Keine Audioclips in der Auswahl.", "color": "Farbe", "cYellow": "Gelb", "cOrange": "Orange", "cRed": "Rot", "cGreen": "Grün", "cBlue": "Blau", "cPink": "Pink", "cPurple": "Lila"}, "it": {"modeLabel": "Con le dissolvenze già presenti:", "mNew": "Lasciarle e crearne solo di nuove", "mBoth": "Crearne di nuove e regolare quelle presenti", "mAdjust": "Solo regolare quelle presenti", "perType": "Scegli per tipo…", "trk1": "1 traccia", "trkN": "{n} tracce", "clp1": "1 clip", "clpN": "{n} clip", "applyN": "Applica {n} dissolvenze", "apply1": "Applica 1 dissolvenza", "pIn": "in entrata", "pXf": "incrociate", "pOut": "in uscita", "rule": "Nessuna dissolvenza supera il 45 % della sua clip.", "noClips": "Nessuna clip audio nella selezione.", "color": "Colore", "cYellow": "Giallo", "cOrange": "Arancione", "cRed": "Rosso", "cGreen": "Verde", "cBlue": "Blu", "cPink": "Rosa", "cPurple": "Viola"}, "pt": {"modeLabel": "Com os fades que já existem:", "mNew": "Deixá-los e criar só novos", "mBoth": "Criar novos e ajustar os existentes", "mAdjust": "Só ajustar os existentes", "perType": "Escolher por tipo…", "trk1": "1 faixa", "trkN": "{n} faixas", "clp1": "1 clip", "clpN": "{n} clips", "applyN": "Aplicar {n} fades", "apply1": "Aplicar 1 fade", "pIn": "de entrada", "pXf": "cruzados", "pOut": "de saída", "rule": "Nenhum fade passa de 45 % do seu clip.", "noClips": "Não há clips de áudio na seleção.", "color": "Cor", "cYellow": "Amarelo", "cOrange": "Laranja", "cRed": "Vermelho", "cGreen": "Verde", "cBlue": "Azul", "cPink": "Rosa", "cPurple": "Roxo"}})) Object.assign(I18N[c], v);
+
+  // The guide: its texts, in every language.
+  for (const [c, v] of Object.entries({"en": {"help": "Quick guide", "helpBtn": "Guide", "tNext": "Next", "tBack": "Back", "tSkip": "Skip", "tDone": "Got it", "langT": "Choose your language", "langX": "The guide and the whole window will use it. You can change it later here, at the top right.", "zt": "Always at hand", "z": "Open this guide again whenever you need it with the Guide button.", "q1t": "Presets", "q1": "Vocal, Drums, Dialog, Soft and Minimal, plus your own. Compare switches between your changes and the loaded preset.", "q2t": "Each kind of fade", "q2": "Fade-ins, crossfades and fade-outs, drawn to scale: drag the lengths or type them in ms, pick the shape, and choose whether to create new fades or adjust the ones already there.", "q3t": "What it works on", "q3": "Select audio tracks in LUNA and, if you like, a range: every clip inside gets the right fade, never more than 45 % of a clip. Here you see how many fades Apply will make.", "q4t": "Apply", "q4": "Apply makes them all at once. Remove fades takes them out of the selection, and Undo reverts the last run."}, "es": {"help": "Guía rápida", "helpBtn": "Guía", "tNext": "Siguiente", "tBack": "Atrás", "tSkip": "Saltar", "tDone": "Entendido", "langT": "Elige tu idioma", "langX": "La guía y toda la ventana lo usarán. Puedes cambiarlo luego aquí, arriba a la derecha.", "zt": "Siempre a mano", "z": "Vuelve a esta guía cuando la necesites con el botón Guía.", "q1t": "Presets", "q1": "Voz, Batería, Diálogo, Suave y Mínimo, más los tuyos. Comparar alterna entre tus cambios y el preset cargado.", "q2t": "Cada tipo de fundido", "q2": "Fundidos de entrada, cruzados y de salida, dibujados a escala: arrastra las duraciones o escríbelas en ms, elige la forma y decide si crear fundidos nuevos o ajustar los que ya hay.", "q3t": "Sobre qué trabaja", "q3": "Selecciona pistas de audio en LUNA y, si quieres, un rango: cada clip de dentro recibe el fundido que le toca, nunca más del 45 % del clip. Aquí ves cuántos fundidos hará Aplicar.", "q4t": "Aplica", "q4": "Aplicar los hace todos a la vez. Quitar fundidos los saca de la selección y Deshacer revierte la última pasada."}, "ca": {"help": "Guia ràpida", "helpBtn": "Guia", "tNext": "Següent", "tBack": "Enrere", "tSkip": "Saltar", "tDone": "Entesos", "langT": "Tria el teu idioma", "langX": "La guia i tota la finestra el faran servir. El pots canviar després aquí, a dalt a la dreta.", "zt": "Sempre a mà", "z": "Torna a aquesta guia quan la necessitis amb el botó Guia.", "q1t": "Presets", "q1": "Veu, Bateria, Diàleg, Suau i Mínim, més els teus. Comparar alterna entre els teus canvis i el preset carregat.", "q2t": "Cada tipus de fos", "q2": "Fosos d’entrada, encreuats i de sortida, dibuixats a escala: arrossega les durades o escriu-les en ms, tria la forma i decideix si crear fosos nous o ajustar els que ja hi ha.", "q3t": "Sobre què treballa", "q3": "Selecciona pistes d’àudio a LUNA i, si vols, un rang: cada clip de dins rep el fos que li toca, mai més del 45 % del clip. Aquí veus quants fosos farà Aplicar.", "q4t": "Aplica", "q4": "Aplicar els fa tots alhora. Treure fosos els treu de la selecció i Desfer reverteix l’última passada."}, "fr": {"help": "Guide rapide", "helpBtn": "Guide", "tNext": "Suivant", "tBack": "Retour", "tSkip": "Passer", "tDone": "Compris", "langT": "Choisissez votre langue", "langX": "Le guide et toute la fenêtre l’utiliseront. Vous pourrez la changer ici, en haut à droite.", "zt": "Toujours à portée", "z": "Rouvrez ce guide quand vous voulez avec le bouton Guide.", "q1t": "Presets", "q1": "Voix, Batterie, Dialogue, Doux et Minimal, plus les vôtres. Comparer bascule entre vos changements et le preset chargé.", "q2t": "Chaque type de fondu", "q2": "Fondus d’entrée, enchaînés et de sortie, dessinés à l’échelle : faites glisser les durées ou tapez-les en ms, choisissez la forme, et créez de nouveaux fondus ou ajustez ceux qui existent.", "q3t": "Sur quoi il agit", "q3": "Sélectionnez des pistes audio dans LUNA et, si vous voulez, une zone : chaque clip reçoit le bon fondu, jamais plus de 45 % du clip. Ici, vous voyez combien de fondus Appliquer va créer.", "q4t": "Appliquez", "q4": "Appliquer les crée tous d’un coup. Retirer les fondus les enlève de la sélection, et Annuler revient sur le dernier passage."}, "de": {"help": "Kurzanleitung", "helpBtn": "Anleitung", "tNext": "Weiter", "tBack": "Zurück", "tSkip": "Überspringen", "tDone": "Verstanden", "langT": "Wähle deine Sprache", "langX": "Die Anleitung und das ganze Fenster verwenden sie. Du kannst sie später hier oben rechts ändern.", "zt": "Immer zur Hand", "z": "Öffne diese Anleitung jederzeit wieder mit dem Button Anleitung.", "q1t": "Presets", "q1": "Vocal, Drums, Dialog, Sanft und Minimal, dazu deine eigenen. Vergleichen schaltet zwischen deinen Änderungen und dem geladenen Preset um.", "q2t": "Jede Art von Blende", "q2": "Einblenden, Überblenden und Ausblenden, maßstabsgetreu gezeichnet: zieh die Längen oder tipp sie in ms ein, wähl die Form und ob neue Blenden entstehen oder vorhandene angepasst werden.", "q3t": "Worauf es wirkt", "q3": "Wähle in LUNA Audiospuren und, wenn du willst, einen Bereich: jeder Clip darin bekommt die passende Blende, nie mehr als 45 % des Clips. Hier siehst du, wie viele Blenden Anwenden macht.", "q4t": "Anwenden", "q4": "Anwenden erstellt alle auf einmal. Blenden entfernen nimmt sie aus der Auswahl, und Rückgängig nimmt den letzten Durchgang zurück."}, "it": {"help": "Guida rapida", "helpBtn": "Guida", "tNext": "Avanti", "tBack": "Indietro", "tSkip": "Salta", "tDone": "Capito", "langT": "Scegli la tua lingua", "langX": "La guida e tutta la finestra la useranno. Puoi cambiarla poi qui, in alto a destra.", "zt": "Sempre a portata di mano", "z": "Riapri questa guida quando ti serve con il pulsante Guida.", "q1t": "Preset", "q1": "Voce, Batteria, Dialogo, Morbido e Minimo, più i tuoi. Confronta passa dalle tue modifiche al preset caricato.", "q2t": "Ogni tipo di dissolvenza", "q2": "Dissolvenze in entrata, incrociate e in uscita, disegnate in scala: trascina le durate o scrivile in ms, scegli la forma e decidi se crearne di nuove o regolare quelle già presenti.", "q3t": "Su cosa lavora", "q3": "Seleziona tracce audio in LUNA e, se vuoi, un intervallo: ogni clip riceve la dissolvenza giusta, mai più del 45 % del clip. Qui vedi quante dissolvenze farà Applica.", "q4t": "Applica", "q4": "Applica le crea tutte insieme. Togli dissolvenze le rimuove dalla selezione e Annulla torna indietro sull’ultimo passaggio."}, "pt": {"help": "Guia rápido", "helpBtn": "Guia", "tNext": "Seguinte", "tBack": "Voltar", "tSkip": "Saltar", "tDone": "Percebi", "langT": "Escolhe o teu idioma", "langX": "O guia e toda a janela vão usá-lo. Podes mudá-lo depois aqui, em cima à direita.", "zt": "Sempre à mão", "z": "Volta a este guia quando precisares com o botão Guia.", "q1t": "Presets", "q1": "Voz, Bateria, Diálogo, Suave e Mínimo, mais os teus. Comparar alterna entre as tuas alterações e o preset carregado.", "q2t": "Cada tipo de fade", "q2": "Fades de entrada, cruzados e de saída, desenhados à escala: arrasta as durações ou escreve-as em ms, escolhe a forma e decide se crias fades novos ou ajustas os que já existem.", "q3t": "Onde trabalha", "q3": "Seleciona faixas de áudio no LUNA e, se quiseres, um intervalo: cada clip recebe o fade certo, nunca mais de 45 % do clip. Aqui vês quantos fades Aplicar vai fazer.", "q4t": "Aplica", "q4": "Aplicar faz todos de uma vez. Tirar fades retira-os da seleção e Desfazer reverte a última passagem."}})) Object.assign(I18N[c], v);
+  let tour = null;
   let theme = store.get('theme') === 'grey' ? 'grey' : 'dark';
+  const COLORS = ['yellow', 'orange', 'red', 'green', 'blue', 'pink', 'purple'];
+  let color = COLORS.includes(store.get('color')) ? store.get('color') : 'green';
+  const closeColors = () => { $('colorMenu').hidden = true; $('colorBtn').classList.remove('open'); };
+  $('colorBtn').onclick = (ev) => { ev.stopPropagation(); const open = $('colorMenu').hidden; $('colorMenu').hidden = !open; $('colorBtn').classList.toggle('open', open); };
+  document.addEventListener('mousedown', (ev) => { if (!ev.target.closest?.('.colors')) closeColors(); });
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeColors(); });
   let statusTimer;
   const say = (key, vars = {}, kind = '', ms = 0) => { clearTimeout(statusTimer); $('status').textContent = key ? t(key, vars) : ''; $('status').className = `status ${kind}`; if (ms) statusTimer = setTimeout(() => say(null), ms); };
   const log = [];
@@ -59,6 +72,12 @@
   const clone = (x) => JSON.parse(JSON.stringify(x));
   const settingsOf = (p) => ({ fin: clone(p.fin), xf: clone(p.xf), fout: clone(p.fout) });
   let opts = settingsOf(store.get('opts2') ?? FACTORY);
+  // What to do with fades already there, for all three kinds at once; 'custom' keeps each
+  // card's own choice (the 1.0 way).
+  const MODES = { new: { create: true, adjShape: false, adjLen: false }, both: { create: true, adjShape: true, adjLen: true }, adjust: { create: false, adjShape: true, adjLen: true } };
+  const modeOf = () => { for (const [m, v] of Object.entries(MODES)) if (['fin', 'xf', 'fout'].every((k) => opts[k].create === v.create && opts[k].adjShape === v.adjShape && opts[k].adjLen === v.adjLen)) return m; return 'custom'; };
+  let mode = store.get('mode') ?? modeOf();
+  const eff = (k) => (mode === 'custom' ? opts[k] : { ...opts[k], ...MODES[mode] });
   const save = () => store.set('opts2', opts);
   const userPresets = store.get('userPresets') ?? [];   // [{ name, fin, xf, fout }]
   let loaded = store.get('loadedPreset') ?? 'b:factory'; // 'b:<key>' built in, 'u:<name>' yours
@@ -71,7 +90,7 @@
   const gain = (shape, x) => (shape === 'linear' ? x : shape === 'equal_power' ? Math.sin((x * Math.PI) / 2) : 1 - Math.pow(1 - x, 3));
   // Fade length on screen: square-root scale, so 1 ms and 1 s both stay readable.
   const PX = 13, msToPx = (ms) => Math.max(10, Math.min(300, PX * Math.sqrt(ms))), pxToMs = (px) => Math.max(0.1, Math.round(Math.pow(Math.max(0, px) / PX, 2) * 10) / 10);
-  const W = 880, H = 150, TOP = 26, BOT = H - 22;
+  const W = 880, H = 112, TOP = 26, BOT = H - 14;
   const curvePts = (shape, x0, x1, up) => { const p = []; for (let i = 0; i <= 36; i++) { const f = i / 36, g = gain(shape, up ? f : 1 - f); p.push([x0 + (x1 - x0) * f, BOT - g * (BOT - TOP)]); } return p; };
   const pathOf = (pts) => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join('');
   function drawStrip() {
@@ -79,7 +98,7 @@
     const fi = msToPx(opts.fin.ms), fo = msToPx(opts.fout.ms), xw = msToPx(opts.xf.ms);
     const sh = opts.xf.align === 'before' ? -xw / 2 : opts.xf.align === 'after' ? xw / 2 : 0;
     const xs = cut - xw / 2 + sh, xe = cut + xw / 2 + sh;
-    const on = (k) => opts[k].create || opts[k].adjShape || opts[k].adjLen;
+    const on = (k) => { const o = eff(k); return o.create || o.adjShape || o.adjLen; };
     const parts = [];
     // Clip bodies: A runs to the end of the crossfade, B starts at its start.
     parts.push(`<rect class="clip a" x="${A0}" y="${TOP - 10}" width="${(on('xf') ? xe : cut) - A0}" height="${BOT - TOP + 20}" rx="10"/>`);
@@ -89,13 +108,13 @@
     const fill = (pts, cls) => `<path class="fill ${cls}" d="${pathOf(pts)}L${pts.at(-1)[0]} ${BOT}L${pts[0][0]} ${BOT}Z"/><path class="curve ${cls}" d="${pathOf(pts)}"/>`;
     parts.push(zone('fin', A0, A0 + fi, fill(curvePts(opts.fin.shape, A0, A0 + fi, true), 'in')));
     parts.push(zone('fout', B1 - fo, B1, fill(curvePts(opts.fout.shape, B1 - fo, B1, false), 'out')));
-    parts.push(zone('xf', xs, xe, `${fill(curvePts(opts.xf.shape, xs, xe, false), 'out')}${fill(curvePts(opts.xf.shape, xs, xe, true), 'in')}`));
+    parts.push(zone('xf', xs, xe, `${fill(curvePts(opts.xf.shape, xs, xe, false), 'x x2')}${fill(curvePts(opts.xf.shape, xs, xe, true), 'x')}`));
     parts.push(`<line class="cut" x1="${cut}" x2="${cut}" y1="${TOP - 18}" y2="${BOT + 12}"/>`);
     // Handles to drag each fade's length.
     const handle = (k, x) => `<g class="handle${on(k) ? '' : ' off'}" data-k="${k}"><line x1="${x}" x2="${x}" y1="${TOP - 4}" y2="${BOT + 4}"/><circle cx="${x}" cy="${TOP - 4}" r="6"/></g>`;
     parts.push(handle('fin', A0 + fi), handle('fout', B1 - fo), handle('xf', opts.xf.align === 'before' ? xs : xe));
-    const label = (x, txt, anchor = 'middle') => `<text class="ms" x="${x}" y="${TOP - 13}" text-anchor="${anchor}">${txt}</text>`;
-    parts.push(label(Math.max(A0 + 22, A0 + fi / 2), `${opts.fin.ms} ms`), label(Math.min(B1 - 22, B1 - fo / 2), `${opts.fout.ms} ms`), label((xs + xe) / 2, `${opts.xf.ms} ms`));
+    const label = (x, txt, k) => `<text class="ms ${k}" x="${x}" y="${TOP - 13}" text-anchor="middle">${txt}</text>`;
+    parts.push(label(Math.max(A0 + 22, A0 + fi / 2), `${opts.fin.ms} ms`, 'fin'), label(Math.min(B1 - 22, B1 - fo / 2), `${opts.fout.ms} ms`, 'fout'), label((xs + xe) / 2, `${opts.xf.ms} ms`, 'xf'));
     const svg = $('strip');
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = parts.join('');
@@ -121,13 +140,15 @@
 
   // ---- The three cards ------------------------------------------------------------------------------
   const SHAPE_KEYS = ['linear', 'equal_power', 'log'];
-  const placeIcon = (a) => { const x = a === 'before' ? 3 : a === 'after' ? 13 : 8; return `<svg viewBox="0 0 26 14"><rect x="${x}" y="2" width="10" height="10" rx="2" class="pf"/><line x1="13" x2="13" y1="0" y2="14" class="pc"/></svg>`; };
+  // A crossfade drawn where it sits against the cut (the dashed line).
+  const placeIcon = (a) => { const x0 = a === 'before' ? 2 : a === 'after' ? 13 : 7.5, x1 = x0 + 11; return `<svg viewBox="0 0 26 14"><path d="M${x0} 13C${x0 + 4} 4 ${x0 + 7} 1 ${x1} 1"/><path d="M${x0} 1C${x0 + 4} 1 ${x0 + 7} 4 ${x1} 13" opacity=".55"/><line x1="13" x2="13" y1="0" y2="14" class="pc"/></svg>`; };
   let focused = null;
   function focusCard(k) { focused = k; for (const c of document.querySelectorAll('.card3')) c.classList.toggle('focus', c.dataset.k === k); }
   function card(k) {
     const o = opts[k];
     const c = document.createElement('section');
-    c.className = `card3 ${k}${focused === k ? ' focus' : ''}${o.create || o.adjShape || o.adjLen ? '' : ' off'}`;
+    const e = eff(k);
+    c.className = `card3 ${k}${focused === k ? ' focus' : ''}${e.create || e.adjShape || e.adjLen ? '' : ' off'}`;
     c.dataset.k = k;
     c.innerHTML = `<header><i class="dot"></i><b></b><label class="num"><input type="text" inputmode="decimal"><span>ms</span></label></header><div class="field"><span class="fl"></span><div class="seg sh"></div></div>${k === 'xf' ? '<div class="field"><span class="fl pl"></span><div class="seg place"></div></div>' : ''}<div class="field"><span class="fl ap"></span><div class="chips"></div></div>`;
     c.querySelector('b').textContent = t(k);
@@ -135,7 +156,7 @@
     inp.onchange = () => { const v = Number(String(inp.value).replace(',', '.')); if (Number.isFinite(v) && v > 0) { o.ms = Math.min(5000, Math.round(v * 10) / 10); touched(); } else inp.value = String(o.ms); };
     inp.onkeydown = (e) => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); const step = e.shiftKey ? 10 : 1; o.ms = Math.max(0.1, Math.min(5000, Math.round((o.ms + (e.key === 'ArrowUp' ? step : -step)) * 10) / 10)); touched(); } };
     c.querySelector('.fl').textContent = t('shape');
-    c.querySelector('.sh').replaceChildren(...SHAPE_KEYS.map((s) => { const b = document.createElement('button'); b.innerHTML = `${shapeIcon(s, k === 'fout')}<span></span>`; b.querySelector('span').textContent = t(s + 'S'); b.title = t(s); b.classList.toggle('on', o.shape === s); b.onclick = () => { o.shape = s; touched(); }; return b; }));
+    c.querySelector('.sh').replaceChildren(...SHAPE_KEYS.map((s) => { const b = document.createElement('button'); b.innerHTML = `${shapeIcon(s, k === 'fout', k === 'xf')}<span></span>`; b.querySelector('span').textContent = t(s + 'S'); b.title = t(s); b.classList.toggle('on', o.shape === s); b.onclick = () => { o.shape = s; touched(); }; return b; }));
     if (k === 'xf') {
       c.querySelector('.pl').textContent = t('placement');
       c.querySelector('.place').replaceChildren(...['before', 'center', 'after'].map((a) => { const b = document.createElement('button'); b.innerHTML = `${placeIcon(a)}<span></span>`; b.querySelector('span').textContent = t(a + 'S'); b.title = t(a); b.classList.toggle('on', o.align === a); b.onclick = () => { o.align = a; touched(); }; return b; }));
@@ -143,6 +164,7 @@
     c.querySelector('.ap').textContent = t('applyTo');
     c.querySelector('.ap').title = t('applyTip');
     c.querySelector('.chips').replaceChildren(...[['create', 'newOnes'], ['adjShape', 'theirShape'], ['adjLen', 'theirLen']].map(([f, lk]) => { const b = document.createElement('button'); b.className = `tog${o[f] ? ' on' : ''}`; b.textContent = t(lk); b.title = t(f === 'create' ? (k === 'fin' ? 'createIn' : k === 'xf' ? 'createX' : 'createOut') : f === 'adjShape' ? 'adjShape' : 'adjLen'); b.onclick = () => { o[f] = !o[f]; touched(); }; return b; }));
+    if (mode !== 'custom') { c.querySelector('.ap')?.closest('.field')?.remove(); }
     c.onclick = () => focusCard(k);
     return c;
   }
@@ -150,19 +172,34 @@
     if (numbersOnly) { for (const c of document.querySelectorAll('.card3')) { const inp = c.querySelector('.num input'); if (document.activeElement !== inp) inp.value = String(opts[c.dataset.k].ms); } return; }
     $('cards').replaceChildren(card('fin'), card('xf'), card('fout'));
   }
-  const shapeIcon = (s, down) => {
+  const shapeIcon = (s, down, cross) => {
     const d = s === 'linear' ? 'M1 13L21 1' : s === 'log' ? 'M1 13C3 4 9 1 21 1' : 'M1 13C8 12 15 7 21 1';
+    // A crossfade is two curves: the one coming in, and the one going out (mirrored, fainter).
+    if (cross) return `<svg viewBox="0 0 22 14"><path d="${d}"/><path d="${d}" opacity=".55" transform="translate(22 0) scale(-1 1)"/></svg>`;
     return `<svg viewBox="0 0 22 14"${down ? ' style="transform:scaleX(-1)"' : ''}><path d="${d}"/></svg>`;
   };
   const touched = () => { compareA = null; save(); paint(); };
+  function paintMode() {
+    $('modeLabel').textContent = t('modeLabel');
+    $('mode').replaceChildren(...[['new', 'mNew'], ['both', 'mBoth'], ['adjust', 'mAdjust']].map(([m, k]) => { const b = document.createElement('button'); b.textContent = t(k); b.className = mode === m ? 'on' : ''; b.onclick = () => setMode(m); return b; }));
+    $('perType').textContent = t('perType'); $('perType').classList.toggle('on', mode === 'custom');
+  }
+  function setMode(m) {
+    // Leaving a mode for the per-type view starts each card from what that mode did.
+    if (m === 'custom' && mode !== 'custom') for (const k of ['fin', 'xf', 'fout']) Object.assign(opts[k], MODES[mode]);
+    mode = m; store.set('mode', m); save(); paint();
+  }
+  $('perType').onclick = () => setMode(mode === 'custom' ? modeOf() === 'custom' ? 'both' : modeOf() : 'custom');
 
   let repaint = () => {};
   function paint() {
+    paintMode();
     drawStrip();
     paintCards();
     paintPresets();
     $('compare').classList.toggle('on', !!compareA);
     $('compare').disabled = !presetById(loaded);
+    repaint();
   }
   // The preset menu: built-in presets, yours, then save and delete.
   function paintPresets() {
@@ -212,7 +249,20 @@
   };
   function paintStatic() {
     document.documentElement.lang = lang;
+    $('help').title = t('help'); $('help').setAttribute('aria-label', t('help')); { const q = document.createElement('b'); q.textContent = '?'; const sp = document.createElement('span'); sp.textContent = t('helpBtn'); $('help').replaceChildren(q, sp); }
     document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.color = color;
+    $('colorBtn').title = t('color'); $('colorBtn').setAttribute('aria-label', t('color'));
+    $('colorMenu').replaceChildren(...COLORS.map((c) => {
+      const b = document.createElement('button');
+      b.className = c === color ? 'on' : '';
+      b.innerHTML = `<i class="sw" data-color="${c}" data-theme="${theme}"></i><span></span><svg viewBox="0 0 12 12"><path d="M2.5 6.5L5 9L9.5 3.5"/></svg>`;
+      b.querySelector('span').textContent = t(`c${c[0].toUpperCase()}${c.slice(1)}`);
+      b.onclick = () => { color = c; store.set('color', c); closeColors(); paintStatic(); };
+      return b;
+    }));
+    $('rule').textContent = t('rule');
+    for (const [id, k] of [['pFin', 'pIn'], ['pXf', 'pXf'], ['pFout', 'pOut']]) $(id).querySelector('em').textContent = t(k);
     $('ver').textContent = `v${VERSION}`;
     $('lang').replaceChildren(...Object.keys(I18N).map((c) => Object.assign(document.createElement('option'), { value: c, textContent: I18N[c]._name })));
     $('lang').value = lang;
@@ -275,15 +325,45 @@
       }
       return { jobs, tracks };
     }
+    // What Apply would do right now: the same choices as apply(), without touching anything.
+    function forecast(jobs) {
+      let fin = 0, fout = 0, xf = 0;
+      for (const j of jobs) {
+        const c = j.clip, len = c.stop.value - c.start.value;
+        const cap = (ticks) => Math.max(1, Math.min(ticks, Math.floor(len * 0.45)));
+        if (!j.prev && plan(eff('fin'), j.has.in, cap(msToTicks(opts.fin.ms, c.start.value)))) fin++;
+        if (!j.touchesNext && plan(eff('fout'), j.has.out, cap(msToTicks(opts.fout.ms, c.stop.value)))) fout++;
+        if (j.next) {
+          const nlen = j.next.stop.value - j.next.start.value;
+          const want = Math.max(1, Math.min(msToTicks(opts.xf.ms, c.stop.value), Math.floor(Math.min(len, nlen) * 0.45)));
+          if (plan(eff('xf'), j.has.xf, want)) xf++;
+        }
+      }
+      return { fin, fout, xf };
+    }
+    let paintSeq = 0;
     async function paintTarget() {
+      const seq = ++paintSeq;
       const { tracks, range } = selection();
-      const box = $('target');
-      if (!tracks.length) { box.textContent = t('noTarget'); $('apply').disabled = $('remove').disabled = true; return; }
-      let n = 0;
-      for (const tk of tracks) { const lane = s.playlistFor(tk); if (!lane) continue; await lane.clips.load(); n += lane.clips.items.filter((c) => c.clipType?.value !== 'midi' && (!range || (c.stop.value > range.S && c.start.value < range.E))).length; }
-      const names = tracks.map((x) => x.name.value.replace(/[<&]/g, '')).join(', ');
-      box.innerHTML = t('target', { n, t: names, where: range ? t('range', { from: tl.formatBarBeat(range.S), to: tl.formatBarBeat(range.E) }) : t('wholeTracks') });
-      $('apply').disabled = $('remove').disabled = busy || !n;
+      const pills = (f) => { for (const [id, n] of [['pFin', f.fin], ['pXf', f.xf], ['pFout', f.fout]]) { $(id).querySelector('b').textContent = String(n); $(id).classList.toggle('zero', !n); } };
+      if (!tracks.length) {
+        $('tMain').textContent = t('noTarget'); $('tSub').textContent = '';
+        $('tbar').classList.remove('ready'); pills({ fin: 0, xf: 0, fout: 0 });
+        $('apply').textContent = t('apply'); $('apply').disabled = $('remove').disabled = true;
+        return;
+      }
+      let jobs = [];
+      try { ({ jobs } = await gather()); } catch (e) { note('gather failed', { e: errText(e) }); }
+      if (seq !== paintSeq) return;
+      const f = forecast(jobs), total = f.fin + f.xf + f.fout;
+      const n = jobs.length;
+      $('tMain').textContent = n ? `${tracks.length === 1 ? t('trk1') : t('trkN', { n: tracks.length })} · ${n === 1 ? t('clp1') : t('clpN', { n })}` : t('noClips');
+      $('tSub').textContent = `${tracks.map((x) => x.name.value).join(', ')} · ${range ? t('range', { from: tl.formatBarBeat(range.S), to: tl.formatBarBeat(range.E) }) : t('wholeTracks')}`;
+      $('tbar').classList.toggle('ready', total > 0);
+      pills(f);
+      $('apply').textContent = total === 1 ? t('apply1') : total ? t('applyN', { n: total }) : t('apply');
+      $('apply').disabled = busy || !total;
+      $('remove').disabled = busy || !n;
     }
     let paintTimer;
     repaint = () => { clearTimeout(paintTimer); paintTimer = setTimeout(() => void paintTarget(), 120); };
@@ -328,17 +408,17 @@
           const c = j.clip, len = c.stop.value - c.start.value;
           const cap = (ticks) => Math.max(1, Math.min(ticks, Math.floor(len * 0.45)));
           if (!j.prev) {
-            const p = plan(opts.fin, j.has.in, cap(msToTicks(opts.fin.ms, c.start.value)));
+            const p = plan(eff('fin'), j.has.in, cap(msToTicks(opts.fin.ms, c.start.value)));
             if (p) { await c.setFadeIn(p[0], p[1] ? { shape: p[1] } : {}); fin++; steps += j.has.in && p[1] && p[1] !== j.has.in.shape ? 2 : 1; }
           }
           if (!j.touchesNext) {
-            const p = plan(opts.fout, j.has.out, cap(msToTicks(opts.fout.ms, c.stop.value)));
+            const p = plan(eff('fout'), j.has.out, cap(msToTicks(opts.fout.ms, c.stop.value)));
             if (p) { await c.setFadeOut(p[0], p[1] ? { shape: p[1] } : {}); fout++; steps += j.has.out && p[1] && p[1] !== j.has.out.shape ? 2 : 1; }
           }
           if (j.next) {
             const nlen = j.next.stop.value - j.next.start.value;
             const want = Math.max(1, Math.min(msToTicks(opts.xf.ms, c.stop.value), Math.floor(Math.min(len, nlen) * 0.45)));
-            const p = plan(opts.xf, j.has.xf, want);
+            const p = plan(eff('xf'), j.has.xf, want);
             if (p) {
               try { if (await crossfade(j, p[0], opts.xf.align, p[1])) { xf++; steps += j.has.xf && p[1] && p[1] !== j.has.xf.shape ? 2 : 1; } }
               catch (e) { note('crossfade failed', { clip: c.name.value, gap: j.gap, e: errText(e) }); }
@@ -392,5 +472,23 @@
     await luna.sessions.ready();
     luna.sessions.focused.onChange(() => void build());
     await build();
+    tour ??= window.AddOnTour?.attach({
+      button: $('help'), key: `${KEY}tourSeen`,
+      labels: () => ({ next: t('tNext'), back: t('tBack'), skip: t('tSkip'), done: t('tDone') }),
+      language: {
+        sel: '#lang',
+        list: () => Object.keys(I18N).map((c) => [c, I18N[c]._name]),
+        current: () => lang,
+        set: (c) => { $('lang').value = c; $('lang').dispatchEvent(new Event('change')); },
+        title: () => t('langT'), text: () => t('langX'),
+      },
+      steps: () => [
+        { sel: '#preset', title: () => t('q1t'), text: () => t('q1') },
+        { sel: '#cards', title: () => t('q2t'), text: () => t('q2') },
+        { sel: '#tbar', title: () => t('q3t'), text: () => t('q3') },
+        { sel: '#apply', title: () => t('q4t'), text: () => t('q4') },
+        { sel: '#help', title: () => t('zt'), text: () => t('z') },
+      ],
+    });
   })();
 })();

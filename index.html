@@ -6,14 +6,41 @@
   <style>
     :root, [data-theme="dark"] {
       --plate: #141619; --panel: #1d2024; --panel2: #24282d; --well: #101215; --edge: #2c3036;
-      --text: #f1f0ec; --dim: #858a93; --silk: #b9bdc5; --acc: #2ee6a6; --acc2: #4cc3ff; --ink: #0d1a15;
+      --text: #f1f0ec; --dim: #858a93; --silk: #b9bdc5; --acc: #2ee6a6; --acc2: #9be14a; --ink: #0d1a15;
+      --cin: #2ee6a6; --cxf: #3fd5d2; --cout: #4cc3ff;
       --ok: #3ddc84; --bad: #ff5a6a; color-scheme: dark;
     }
     [data-theme="grey"] {
       --plate: #4a4e55; --panel: #555a62; --panel2: #5d626a; --well: #41454b; --edge: #6a6f78;
-      --text: #f6f5f1; --dim: #c9ccd1; --silk: #e1e3e6; --acc: #5ff0bd; --acc2: #7fd4ff; --ink: #0d1a15;
+      --text: #f6f5f1; --dim: #c9ccd1; --silk: #e1e3e6; --acc: #5ff0bd; --acc2: #b8ee7a; --ink: #0d1a15;
+      --cin: #5ff0bd; --cxf: #6fe6e3; --cout: #7fd4ff;
       --ok: #7ef0ae; --bad: #ff9aa3;
     }
+    [data-color="yellow"] { --acc: #ffd23f; --acc2: #f5a623; --ink: #1f1600; }
+    [data-color="orange"] { --acc: #ffa94d; --acc2: #ff6b3d; --ink: #1f0c00; }
+    [data-color="red"]    { --acc: #ff6b6b; --acc2: #e0334f; --ink: #1f0508; }
+    [data-color="green"]  { --acc: #2ee6a6; --acc2: #9be14a; --ink: #0b1a10; }
+    [data-color="blue"]   { --acc: #4cc3ff; --acc2: #5b6cff; --ink: #06131f; }
+    [data-color="pink"]   { --acc: #ff86c8; --acc2: #ff4f8b; --ink: #1f0612; }
+    [data-color="purple"] { --acc: #c08bff; --acc2: #7b5cff; --ink: #12081f; }
+    [data-theme="grey"][data-color="yellow"] { --acc: #ffdc66; --acc2: #ffb648; }
+    [data-theme="grey"][data-color="orange"] { --acc: #ffbd73; --acc2: #ff8a63; }
+    [data-theme="grey"][data-color="red"]    { --acc: #ff8f8f; --acc2: #ff5c74; }
+    [data-theme="grey"][data-color="green"]  { --acc: #5ff0bd; --acc2: #b8ee7a; }
+    [data-theme="grey"][data-color="blue"]   { --acc: #7fd4ff; --acc2: #8f9bff; }
+    [data-theme="grey"][data-color="pink"]   { --acc: #ffa6d6; --acc2: #ff79a8; }
+    [data-theme="grey"][data-color="purple"] { --acc: #d4adff; --acc2: #a08bff; }
+    .colors { position: relative; }
+    #colorBtn { width: 30px; height: 28px; border-radius: 9px; border: 1px solid var(--edge); background: var(--well); display: grid; place-items: center; padding: 0; }
+    #colorBtn i, .sw { width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(135deg, var(--acc), var(--acc2)); display: block; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+    #colorBtn.open { border-color: var(--acc); }
+    .menu { position: absolute; z-index: 30; top: calc(100% + 6px); right: 0; width: 150px; padding: 5px; background: var(--panel2); border: 1px solid var(--edge); border-radius: 12px; box-shadow: 0 16px 40px rgba(0,0,0,.5); display: flex; flex-direction: column; }
+    .menu[hidden] { display: none; }
+    .menu button { display: flex; align-items: center; gap: 9px; border: 0; background: none; padding: 5px 8px; border-radius: 7px; font-weight: 700; font-size: 12px; text-align: left; }
+    .menu button:hover { background: var(--well); }
+    .menu button span { flex: 1; }
+    .menu button svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; visibility: hidden; }
+    .menu button.on svg { visibility: visible; }
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; }
     body { background: var(--plate); color: var(--text); font: 12.5px/1.35 ui-rounded, "SF Pro Rounded", system-ui, sans-serif; display: flex; flex-direction: column; user-select: none; -webkit-font-smoothing: antialiased; }
@@ -48,19 +75,22 @@
     .theme svg { width: 12px; height: 12px; }
     select { background: var(--well); border: 1px solid var(--edge); border-radius: 8px; padding: 3px 6px; font-size: 12px; }
 
-    main { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+    main { flex: 1; overflow: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 10px; }
     /* The strip: clips A and B with all three fades, draggable */
     .stripbox { background: var(--panel); border-radius: 16px; padding: 6px 8px; }
-    #strip { width: 100%; height: 128px; overflow: visible; }
+    #strip { width: 100%; height: 92px; overflow: visible; }
     #strip .clip { stroke: none; }
-    #strip .clip.a { fill: color-mix(in srgb, var(--acc) 13%, var(--panel2)); }
-    #strip .clip.b { fill: color-mix(in srgb, var(--acc2) 13%, var(--panel2)); opacity: .95; }
+    #strip .clip.a { fill: color-mix(in srgb, var(--cin) 10%, var(--panel2)); }
+    #strip .clip.b { fill: color-mix(in srgb, var(--cout) 10%, var(--panel2)); opacity: .95; }
     #strip .cl { fill: var(--dim); font-size: 12px; font-weight: 800; }
-    #strip .fill.in { fill: color-mix(in srgb, var(--acc) 30%, transparent); }
-    #strip .fill.out { fill: color-mix(in srgb, var(--acc2) 30%, transparent); }
+    #strip .fill.in { fill: color-mix(in srgb, var(--cin) 32%, transparent); }
+    #strip .fill.out { fill: color-mix(in srgb, var(--cout) 32%, transparent); }
+    #strip .fill.x { fill: color-mix(in srgb, var(--cxf) 22%, transparent); }
     #strip .curve { fill: none; stroke-width: 2.6; stroke-linecap: round; }
-    #strip .curve.in { stroke: var(--acc); }
-    #strip .curve.out { stroke: var(--acc2); }
+    #strip .curve.in { stroke: var(--cin); }
+    #strip .curve.out { stroke: var(--cout); }
+    #strip .curve.x { stroke: var(--cxf); }
+    #strip .curve.x2 { stroke: var(--cxf); opacity: .6; }
     #strip .hot { fill: transparent; cursor: pointer; }
     #strip .zone.off { opacity: .25; }
     #strip .cut { stroke: var(--text); stroke-width: 1.4; stroke-dasharray: 3 4; opacity: .55; }
@@ -69,21 +99,20 @@
     #strip .handle circle { fill: var(--text); stroke: var(--plate); stroke-width: 2; }
     #strip .handle:hover circle { fill: var(--acc); }
     #strip .handle.off { display: none; }
+    #strip .ms.fin { fill: var(--cin); } #strip .ms.xf { fill: var(--cxf); } #strip .ms.fout { fill: var(--cout); }
     #strip .ms { fill: var(--silk); font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; }
     /* Three cards */
     #cards { display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 10px; }
-    .card3 { background: var(--panel); border-radius: 16px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 9px; border: 1.5px solid transparent; transition: border-color .15s; min-width: 0; }
-    .card3.focus { border-color: color-mix(in srgb, var(--acc) 55%, transparent); }
-    .card3.fout.focus { border-color: color-mix(in srgb, var(--acc2) 55%, transparent); }
+    .card3.fin { --c: var(--cin); } .card3.xf { --c: var(--cxf); } .card3.fout { --c: var(--cout); }
+    .card3 { background: var(--panel); border-radius: 16px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 9px; border: 1.5px solid transparent; border-top: 3px solid var(--c); transition: border-color .15s; min-width: 0; }
+    .card3.focus { border-color: color-mix(in srgb, var(--c) 55%, transparent); border-top-color: var(--c); }
+    .card3.off { --c: var(--edge); }
     .card3.off header b { color: var(--dim); }
     .card3 header { display: flex; align-items: center; gap: 8px; }
     .card3 header b { flex: 1; font-size: 13px; font-weight: 800; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--acc); flex: none; }
-    .card3.xf .dot { background: linear-gradient(90deg, var(--acc), var(--acc2)); }
-    .card3.fout .dot { background: var(--acc2); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
     .num { display: flex; align-items: center; gap: 3px; background: var(--well); border: 1px solid var(--edge); border-radius: 9px; padding: 3px 8px; width: 92px; }
-    .num input { width: 100%; border: 0; background: none; text-align: right; font-variant-numeric: tabular-nums; font-weight: 800; font-size: 14px; color: var(--acc); outline: none; }
-    .card3.fout .num input { color: var(--acc2); }
+    .num input { width: 100%; border: 0; background: none; text-align: right; font-variant-numeric: tabular-nums; font-weight: 800; font-size: 14px; color: var(--c); outline: none; }
     .num span { color: var(--dim); font-size: 11px; }
     .field { display: flex; flex-direction: column; gap: 4px; }
     .fl { color: var(--dim); font-size: 10.5px; font-weight: 700; }
@@ -96,11 +125,29 @@
     .seg button.on { background: var(--panel2); color: var(--text); }
     .chips { display: flex; flex-wrap: wrap; gap: 4px; }
     .tog { border: 1px solid var(--edge); background: var(--well); border-radius: 999px; padding: 3px 10px; font-size: 11.5px; font-weight: 700; color: var(--dim); }
-    .tog.on { background: color-mix(in srgb, var(--acc) 18%, var(--well)); border-color: color-mix(in srgb, var(--acc) 60%, transparent); color: var(--text); }
-    .card3.fout .tog.on { background: color-mix(in srgb, var(--acc2) 18%, var(--well)); border-color: color-mix(in srgb, var(--acc2) 60%, transparent); }
+    .tog.on { background: color-mix(in srgb, var(--c) 18%, var(--well)); border-color: color-mix(in srgb, var(--c) 60%, transparent); color: var(--text); }
     .foot { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--edge); }
-    #target { font-size: 12px; color: var(--dim); }
-    #target b { color: var(--text); }
+    /* What is selected, and what Apply will do */
+    .tbar { display: flex; align-items: center; gap: 12px; background: var(--panel); border-radius: 14px; padding: 7px 14px; border: 1.5px solid transparent; }
+    .tbar.ready { border-color: color-mix(in srgb, var(--acc) 45%, transparent); }
+    .tic { width: 34px; height: 34px; border-radius: 10px; background: var(--well); display: grid; place-items: center; flex: none; color: var(--dim); }
+    .tbar.ready .tic { background: color-mix(in srgb, var(--acc) 16%, var(--well)); color: var(--acc); }
+    .tic svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+    .who { min-width: 0; }
+    #tMain { display: block; font-size: 14px; font-weight: 800; }
+    #tSub { display: block; color: var(--dim); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sum { display: flex; gap: 6px; margin-left: auto; flex: none; }
+    .pill { display: flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 11px; font-weight: 800; font-size: 12px; background: var(--well); border: 1px solid var(--edge); font-variant-numeric: tabular-nums; }
+    .pill i { width: 9px; height: 9px; border-radius: 50%; }
+    .pill em { font-style: normal; color: var(--dim); font-weight: 700; }
+    .pill.zero { opacity: .45; }
+    .pill.fin i { background: var(--cin); } .pill.xf i { background: var(--cxf); } .pill.fout i { background: var(--cout); }
+    .mode { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .mode .seg { flex: none; }
+    .mode .seg button { flex-direction: row; padding: 5px 11px; font-size: 11.5px; white-space: nowrap; flex: none; }
+    .link { border: 0; background: none; color: var(--dim); font-size: 11px; font-weight: 700; text-decoration: underline dotted; padding: 0; }
+    .link.on { color: var(--acc); }
+    .rule { color: var(--dim); font-size: 11.5px; }
     .status { font-size: 12px; color: var(--dim); }
     .status.ok { color: var(--ok); } .status.bad { color: var(--bad); }
     .btn.main { background: linear-gradient(90deg, var(--acc), var(--acc2)); border: 0; color: var(--ink); font-weight: 800; padding: 7px 22px; font-size: 13px; }
@@ -115,6 +162,11 @@
     <span class="savebox" id="saveBox" hidden><input type="text" id="saveName" spellcheck="false" autocomplete="off"><button class="btn mainsm" id="saveOk"></button><button class="btn" id="saveCancel"></button></span>
     <button class="btn" id="compare"></button>
     <span class="grow"></span>
+    <button id="help"></button>
+    <div class="colors">
+      <button id="colorBtn" aria-haspopup="true"><i></i></button>
+      <div class="menu" id="colorMenu" hidden></div>
+    </div>
     <div class="theme">
       <button data-t="dark" id="tDark"><svg viewBox="0 0 16 16"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z" fill="currentColor"/></svg></button>
       <button data-t="grey" id="tGrey"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 2.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg></button>
@@ -122,11 +174,14 @@
     <select id="lang"></select>
   </div>
   <main>
+    <div class="tbar" id="tbar"><span class="tic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span><div class="who"><b id="tMain"></b><span id="tSub"></span></div>
+      <div class="sum"><span class="pill fin" id="pFin"><i></i><b>0</b><em></em></span><span class="pill xf" id="pXf"><i></i><b>0</b><em></em></span><span class="pill fout" id="pFout"><i></i><b>0</b><em></em></span></div></div>
     <div class="stripbox"><svg id="strip" preserveAspectRatio="none"></svg></div>
+    <div class="mode"><span class="lbl" id="modeLabel"></span><div class="seg" id="mode"></div><button class="link" id="perType"></button></div>
     <div id="cards"></div>
   </main>
   <div class="foot">
-    <div id="target"></div>
+    <span class="rule" id="rule"></span>
     <span class="grow"></span>
     <span class="status" id="status" role="status"></span>
     <button class="btn" id="undo"></button>
@@ -134,6 +189,7 @@
     <button class="btn main" id="apply"></button>
   </div>
   <script src="vendor/luna.global.js"></script>
+  <script src="tour.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

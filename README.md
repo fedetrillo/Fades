@@ -25,8 +25,12 @@ Silence, or for a whole edited vocal or drum track.
   of existing ones, change their length, or any mix, so fades you made by hand can stay as they are.
 - **Presets:** Vocal, Drums, Dialog, Soft and Minimal, plus your own — save, overwrite and delete
   them from the menu — and **Compare** to switch between your changes and the loaded preset.
+- **See it before you apply it:** the selection and how many fade-ins, crossfades and fade-outs
+  Apply will make are shown at the top, and on the button.
+- **One choice for fades already there:** keep them and only create new ones, create and adjust,
+  or only adjust; or choose per type.
 - **Remove fades** from the selection, and **Undo** the last run in one go.
-- **Dark and grey themes.**
+- **Dark and grey themes, seven colours.**
 - **7 languages:** English, Español, Català, Français, Deutsch, Italiano and Português.
 
 ## How to use it
@@ -35,6 +39,9 @@ Silence, or for a whole edited vocal or drum track.
 2. In **Fades**, pick a preset or set the lengths, shapes and what to apply to.
 3. Press **Apply**. The bar at the bottom tells you how many fade-ins, crossfades and fade-outs
    were made.
+
+The first time it opens, it asks for your language and then a short guide walks you through the
+window in it; the **Guide** button brings it back whenever you need it.
 
 ## Support
 
