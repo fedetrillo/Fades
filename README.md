@@ -3,13 +3,17 @@
 Batch fades for LUNA. Put fade-ins, fade-outs and crossfades on every clip in the selection at
 once: clips that touch get a crossfade, free edges get a fade-in or a fade-out. Set the lengths by
 dragging them on the strip or typing them, pick the shapes, choose whether to create new fades or
-adjust the ones already there, and keep your settings as presets. Perfect after LUNA's Strip
-Silence, or for a whole edited vocal or drum track.
+adjust the ones already there, and keep your settings as presets. Perfect for a whole edited vocal or
+drum track.
+
+New in 1.2: **Strip silence**. Remove what does not sound on every selected track and fade every
+new cut in the same click.
 
 <p>
   <img src="docs/screenshot-dark.png" alt="Fades, dark theme" width="460">
   <img src="docs/screenshot-grey.png" alt="Fades, grey theme" width="460">
 </p>
+<p><img src="docs/screenshot-strip.png" alt="Fades, Strip silence" width="460"></p>
 
 ## Features
 
@@ -29,6 +33,9 @@ Silence, or for a whole edited vocal or drum track.
   Apply will make are shown at the top, and on the button.
 - **One choice for fades already there:** keep them and only create new ones, create and adjust,
   or only adjust; or choose per type.
+- **Strip silence:** remove what does not sound and fade every new cut in one click. Threshold,
+  minimum silence and margins before and after; a preview of the waveform with what goes and
+  where the fades land; presets for toms, kick and snare, vocals and dialog.
 - **Remove fades** from the selection, and **Undo** the last run in one go.
 - **Dark and grey themes, seven colours.**
 - **7 languages:** English, Español, Català, Français, Deutsch, Italiano and Português.
@@ -39,6 +46,9 @@ Silence, or for a whole edited vocal or drum track.
 2. In **Fades**, pick a preset or set the lengths, shapes and what to apply to.
 3. Press **Apply**. The bar at the bottom tells you how many fade-ins, crossfades and fade-outs
    were made.
+
+To strip silence, open the **Strip silence** tab, pick a preset or set the threshold and margins
+while you watch the preview, and press **Remove … silences and make … fades**.
 
 The first time it opens, it asks for your language and then a short guide walks you through the
 window in it; the **Guide** button brings it back whenever you need it.
@@ -60,7 +70,9 @@ Fundidos en bloque para LUNA: entradas, salidas y fundidos cruzados en todos los
 selección a la vez. Los clips que se tocan reciben un cruzado y los bordes libres, una entrada o
 una salida. Ajusta las duraciones arrastrándolas o escribiéndolas, elige la forma y la colocación
 del cruzado, decide si crear fundidos nuevos o ajustar los que ya hay, y guarda tus presets.
-Ideal después del Strip Silence de LUNA. Modo oscuro y gris, 7 idiomas.
+Ideal para una voz o una batería editadas. Novedad en la 1.2: la pestaña **Cortar silencios** quita
+lo que no suena y deja hechos los fundidos de cada corte en el mismo clic, con vista previa.
+Modo oscuro y gris, 7 idiomas.
 
 ## Licence
 

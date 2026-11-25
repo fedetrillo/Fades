@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.0 — 2026-11-25
+
+- **New: Strip silence.** A second tab removes what does not sound on every selected track and
+  fades every new cut in the same click: a fade-in where the sound comes back, a fade-out where
+  it stops.
+- **Four controls decide what is silence:** threshold, minimum silence, and margins before and
+  after, so attacks and tails stay whole. The fade-in warns you when it is longer than the
+  margin before.
+- **See it before you apply it:** the selected track's waveform with the threshold, what will be
+  removed, the margins and the new fades; the bar and the button say how many silences go and
+  how many fades are made ("Remove 46 silences and make 92 fades").
+- **Presets** for toms, kick and snare, vocals and dialog.
+- **Undo** takes the whole run back in one click.
+
 ## 1.1.0 — 2026-11-25
 
 - **See it before you apply it:** the bar at the top shows your selection (tracks, clips and

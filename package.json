@@ -1,7 +1,7 @@
 {
   "name": "fades",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "Fades, a LUNA Add On by Fede Trillo",
   "scripts": { "serve": "ua-builder serve", "pack": "ua-builder pack" },

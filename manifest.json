@@ -3,10 +3,10 @@
     "id": "com.fedetrillo.fades",
     "title": "Fades",
     "name": "Fades",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "manufacturer": "Fede Trillo",
     "contact": "fedetrillo@gmail.com",
-    "description": "Stop fading clips one by one. Select your tracks and Fades puts the right fade on every clip at once: crossfades where clips touch, fade-ins and fade-outs on free edges, never more than 45 % of a clip. Drag the lengths, pick the shapes, save presets for vocals, drums or dialog, and undo it all in one go. Getting-started guide, 7 languages.",
+    "description": "Stop fading clips one by one. Select your tracks and Fades puts the right fade on every clip at once: crossfades where clips touch, fade-ins and fade-outs on free edges. New: Strip silence removes what does not sound and fades every new cut in the same click, with a preview of what goes. Presets for toms, vocals and dialog, one-click undo, 7 languages.",
     "categories": [
         "Workflow",
         "Mixing & Mastering"
