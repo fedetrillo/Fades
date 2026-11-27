@@ -6,7 +6,7 @@
 
 (() => {
   const $ = (id) => document.getElementById(id);
-  const VERSION = '1.2.0';
+  const VERSION = '1.2.1';
   const KEY = 'com.fedetrillo.fades.';
   const store = {
     get: (k) => { try { return JSON.parse(localStorage.getItem(KEY + k)); } catch { return null; } },
@@ -760,7 +760,7 @@
     $('ver').onclick = async (ev) => {
       if (!ev.altKey) return;
       const text = JSON.stringify({ version: VERSION, opts, selection: (() => { const x = selection(); return { tracks: x.tracks.map((k) => k.name.value), range: x.range }; })(), log }, null, 2);
-      try { await navigator.clipboard.writeText(text); say('report', {}, 'ok', 2500); } catch { /* nothing */ }
+      try { if (await AddOnCopy(text)) say('report', {}, 'ok', 5000); } catch { /* nothing */ }
     };
     for (const p of [ctx.selectionStart, ctx.selectionStop, ctx.selectionTracks]) p?.onChange?.(() => repaint());
     repaint();

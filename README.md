@@ -1,13 +1,9 @@
 # Fades for LUNA
 
-Batch fades for LUNA. Put fade-ins, fade-outs and crossfades on every clip in the selection at
-once: clips that touch get a crossfade, free edges get a fade-in or a fade-out. Set the lengths by
-dragging them on the strip or typing them, pick the shapes, choose whether to create new fades or
-adjust the ones already there, and keep your settings as presets. Perfect for a whole edited vocal or
-drum track.
-
-New in 1.2: **Strip silence**. Remove what does not sound on every selected track and fade every
-new cut in the same click.
+Stop fading clips one by one. Fades puts the right fade on every clip of your tracks at once:
+crossfades where clips touch, fade-ins and fade-outs on free edges. New: Strip silence removes
+what does not sound and fades every new cut in the same click. Preview before you apply,
+one-click undo.
 
 <p>
   <img src="docs/screenshot-dark.png" alt="Fades, dark theme" width="460">
